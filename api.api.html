@@ -1,0 +1,541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module api.api</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="api.html"><font color="#ffffff">api</font></a>.api</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Cworkspace%5Crivulet%5Capi%5Capi.py">d:\workspace\rivulet\api\api.py</a></font></td></tr></table>
+    <p><tt>API请求处理模块<br>
+&nbsp;<br>
+提供了一套完整的API请求构建、发送和处理链式调用的功能。<br>
+包含ApiResult、<a href="#Proxy">Proxy</a>、Env和Api四个主要类。</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="api.json_util.html">api.json_util</a><br>
+</td><td width="25%" valign=top><a href="requests.html">requests</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="api.api.html#Api">Api</a>
+</font></dt><dt><font face="helvetica, arial"><a href="api.api.html#ApiResult">ApiResult</a>
+</font></dt><dt><font face="helvetica, arial"><a href="api.api.html#Env">Env</a>
+</font></dt><dt><font face="helvetica, arial"><a href="api.api.html#Proxy">Proxy</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Api">class <strong>Api</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Api">Api</a>(url=None,&nbsp;env=None,&nbsp;path=None,&nbsp;port=None,&nbsp;host=None,&nbsp;protocol=None,&nbsp;method=None,&nbsp;query=None,&nbsp;fragment=None,&nbsp;headers=None,&nbsp;verify=True,&nbsp;proxy=None,&nbsp;body=None,&nbsp;cookie=None,&nbsp;stream=None,&nbsp;callback=None,&nbsp;before_send=None)<br>
+&nbsp;<br>
+API请求构建和发送类<br>
+&nbsp;<br>
+提供链式API构建方式，支持请求链、并行请求等功能。<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Api-__init__"><strong>__init__</strong></a>(self, url=None, env=None, path=None, port=None, host=None, protocol=None, method=None, query=None, fragment=None, headers=None, verify=True, proxy=None, body=None, cookie=None, stream=None, callback=None, before_send=None)</dt><dd><tt>初始化API请求<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;url:&nbsp;完整API&nbsp;URL，可以是字符串或Env对象<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env:&nbsp;Env对象，提供主机、端口和协议<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;API路径<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port:&nbsp;API端口<br>
+&nbsp;&nbsp;&nbsp;&nbsp;host:&nbsp;API主机<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protocol:&nbsp;API协议(http/https)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;method:&nbsp;HTTP方法(get/post等)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;query:&nbsp;查询参数<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fragment:&nbsp;URL片段<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers:&nbsp;HTTP头<br>
+&nbsp;&nbsp;&nbsp;&nbsp;verify:&nbsp;SSL验证开关<br>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy:&nbsp;代理配置<br>
+&nbsp;&nbsp;&nbsp;&nbsp;body:&nbsp;请求体<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cookie:&nbsp;Cookie<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stream:&nbsp;是否流式响应<br>
+&nbsp;&nbsp;&nbsp;&nbsp;callback:&nbsp;响应回调函数<br>
+&nbsp;&nbsp;&nbsp;&nbsp;before_send:&nbsp;发送前回调函数</tt></dd></dl>
+
+<dl><dt><a name="Api-before_send"><strong>before_send</strong></a>(self, before_send: Callable[[api.api.ApiResult, object], object])</dt><dd><tt>设置请求发送前的回调函数<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;before_send:&nbsp;回调函数，接收两个参数(上一步结果，本Api对象)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-body"><strong>body</strong></a>(self, body)</dt><dd><tt>设置请求体<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;body:&nbsp;请求体或返回请求体的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-callback"><strong>callback</strong></a>(self, callback: Callable[[requests.models.Response, api.api.ApiResult], object])</dt><dd><tt>设置请求完成后的回调函数<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;callback:&nbsp;回调函数，接收两个参数(本次http响应、上一步的结果)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果有后续请求链并且后续请求依赖之前请求结果，需要返回处理结果<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-cookie"><strong>cookie</strong></a>(self, cookie)</dt><dd><tt>设置Cookie<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cookie:&nbsp;Cookie值或返回Cookie的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-env"><strong>env</strong></a>(self, env)</dt><dd><tt>设置环境配置<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;env:&nbsp;Env对象或返回Env对象的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-fragment"><strong>fragment</strong></a>(self, fragment)</dt><dd><tt>设置URL片段<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fragment:&nbsp;URL片段或返回片段的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-get"><strong>get</strong></a>(self)</dt><dd><tt>发送GET请求<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ApiResult">ApiResult</a>:&nbsp;请求结果对象</tt></dd></dl>
+
+<dl><dt><a name="Api-get_before_send"><strong>get_before_send</strong></a>(self)</dt><dd><tt>获取before_send属性<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Callable:&nbsp;请求发送前的回调函数</tt></dd></dl>
+
+<dl><dt><a name="Api-get_body"><strong>get_body</strong></a>(self)</dt><dd><tt>获取请求体<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str/dict:&nbsp;请求体内容</tt></dd></dl>
+
+<dl><dt><a name="Api-get_callback"><strong>get_callback</strong></a>(self)</dt><dd><tt>获取callback属性<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Callable:&nbsp;请求完成后的回调函数</tt></dd></dl>
+
+<dl><dt><a name="Api-get_cookie"><strong>get_cookie</strong></a>(self)</dt><dd><tt>获取Cookie<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;Cookie字典</tt></dd></dl>
+
+<dl><dt><a name="Api-get_desc"><strong>get_desc</strong></a>(self)</dt><dd><tt>获取API描述信息<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;包含url、method、header等信息的字典</tt></dd></dl>
+
+<dl><dt><a name="Api-get_env"><strong>get_env</strong></a>(self)</dt><dd><tt>获取环境配置<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Env">Env</a>:&nbsp;环境配置对象</tt></dd></dl>
+
+<dl><dt><a name="Api-get_fragment"><strong>get_fragment</strong></a>(self)</dt><dd><tt>获取URL片段<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;URL片段</tt></dd></dl>
+
+<dl><dt><a name="Api-get_headers"><strong>get_headers</strong></a>(self)</dt><dd><tt>获取HTTP头<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;HTTP头字典</tt></dd></dl>
+
+<dl><dt><a name="Api-get_host"><strong>get_host</strong></a>(self)</dt><dd><tt>获取主机<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;主机名</tt></dd></dl>
+
+<dl><dt><a name="Api-get_method"><strong>get_method</strong></a>(self)</dt><dd><tt>获取HTTP方法<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;HTTP方法</tt></dd></dl>
+
+<dl><dt><a name="Api-get_next_api"><strong>get_next_api</strong></a>(self)</dt><dd><tt>获取下一个要请求的API对象<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Api">Api</a>:&nbsp;下一个要请求的Api对象</tt></dd></dl>
+
+<dl><dt><a name="Api-get_next_api_list"><strong>get_next_api_list</strong></a>(self)</dt><dd><tt>获取下一步要请求的API对象数组<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;Api对象数组</tt></dd></dl>
+
+<dl><dt><a name="Api-get_path"><strong>get_path</strong></a>(self)</dt><dd><tt>获取路径<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;路径</tt></dd></dl>
+
+<dl><dt><a name="Api-get_port"><strong>get_port</strong></a>(self)</dt><dd><tt>获取端口<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int:&nbsp;端口号</tt></dd></dl>
+
+<dl><dt><a name="Api-get_prev_result"><strong>get_prev_result</strong></a>(self)</dt><dd><tt>获取上一步请求的结果<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ApiResult">ApiResult</a>:&nbsp;上一步请求的结果</tt></dd></dl>
+
+<dl><dt><a name="Api-get_protocol"><strong>get_protocol</strong></a>(self)</dt><dd><tt>获取协议<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;协议(http/https)</tt></dd></dl>
+
+<dl><dt><a name="Api-get_proxy"><strong>get_proxy</strong></a>(self)</dt><dd><tt>获取代理配置<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;包含http和https代理的字典或None</tt></dd></dl>
+
+<dl><dt><a name="Api-get_query"><strong>get_query</strong></a>(self)</dt><dd><tt>获取查询参数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;查询参数字符串</tt></dd></dl>
+
+<dl><dt><a name="Api-get_stream"><strong>get_stream</strong></a>(self)</dt><dd><tt>获取流式响应设置<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;是否为流式响应</tt></dd></dl>
+
+<dl><dt><a name="Api-get_url"><strong>get_url</strong></a>(self)</dt><dd><tt>获取完整URL<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;完整URL或None</tt></dd></dl>
+
+<dl><dt><a name="Api-get_verify"><strong>get_verify</strong></a>(self)</dt><dd><tt>获取SSL验证开关<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;是否验证SSL证书</tt></dd></dl>
+
+<dl><dt><a name="Api-headers"><strong>headers</strong></a>(self, headers)</dt><dd><tt>设置HTTP头<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers:&nbsp;HTTP头字典或返回字典的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-host"><strong>host</strong></a>(self, host)</dt><dd><tt>设置主机<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;host:&nbsp;主机名或返回主机名的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-method"><strong>method</strong></a>(self, method)</dt><dd><tt>设置HTTP方法<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;method:&nbsp;HTTP方法(get/post等)或返回方法的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-next_api"><strong>next_api</strong></a>(self, next_api)</dt><dd><tt>设置下一个要请求的API对象<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;next_api:&nbsp;下一个要请求的Api对象<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-next_api_list"><strong>next_api_list</strong></a>(self, next_api_list)</dt><dd><tt>设置下一步要请求的API对象数组<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;next_api_list:&nbsp;Api对象数组<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-path"><strong>path</strong></a>(self, path)</dt><dd><tt>设置路径<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;路径或返回路径的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-port"><strong>port</strong></a>(self, port)</dt><dd><tt>设置端口<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port:&nbsp;端口号或返回端口号的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-post"><strong>post</strong></a>(self)</dt><dd><tt>发送POST请求<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ApiResult">ApiResult</a>:&nbsp;请求结果对象</tt></dd></dl>
+
+<dl><dt><a name="Api-prev_result"><strong>prev_result</strong></a>(self, prev_result)</dt><dd><tt>设置上一步请求的结果<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;prev_result:&nbsp;上一步请求的结果<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-protocol"><strong>protocol</strong></a>(self, protocol)</dt><dd><tt>设置协议<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protocol:&nbsp;协议(http/https)或返回协议的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-proxy"><strong>proxy</strong></a>(self, proxy)</dt><dd><tt>设置代理<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;proxy:&nbsp;Proxy对象或返回Proxy对象的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-query"><strong>query</strong></a>(self, query)</dt><dd><tt>设置查询参数<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;query:&nbsp;查询参数字符串/字典或返回查询参数的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-send"><strong>send</strong></a>(self)</dt><dd><tt>发送API请求<br>
+&nbsp;<br>
+处理请求链、回调函数等逻辑<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ApiResult">ApiResult</a>:&nbsp;请求结果对象</tt></dd></dl>
+
+<dl><dt><a name="Api-send_and_get_json"><strong>send_and_get_json</strong></a>(self)</dt><dd><tt>发送请求并返回JSON响应<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;响应的JSON内容</tt></dd></dl>
+
+<dl><dt><a name="Api-send_and_print"><strong>send_and_print</strong></a>(self)</dt><dd><tt>发送请求并打印响应<br>
+&nbsp;<br>
+尝试以JSON、HTML或纯文本格式美化输出<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#ApiResult">ApiResult</a>:&nbsp;请求结果对象</tt></dd></dl>
+
+<dl><dt><a name="Api-send_parallel"><strong>send_parallel</strong></a>(self, count_request=1, count_thread=1, interval=0, all_done_callback=None, future_callback=None)</dt><dd><tt>并行发送请求<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count_request:&nbsp;总发送次数<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count_thread:&nbsp;线程个数<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interval:&nbsp;每个请求的间隔时间(秒)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;all_done_callback:&nbsp;所有任务完成后回调(无参数)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;future_callback:&nbsp;每个任务完成后回调(1个参数，表示一个future对象)</tt></dd></dl>
+
+<dl><dt><a name="Api-set_attr"><strong>set_attr</strong></a>(self)</dt><dd><tt>动态设置属性<br>
+&nbsp;<br>
+如果属性被设置为函数，则调用函数获取实际值</tt></dd></dl>
+
+<dl><dt><a name="Api-stream"><strong>stream</strong></a>(self, stream)</dt><dd><tt>设置是否为流式响应<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stream:&nbsp;Bool/Function&nbsp;如果是function则会在请求时动态解析<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-then"><strong>then</strong></a>(self, param)</dt><dd><tt>设置下一步请求<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;param:&nbsp;可以是单个Api对象或Api对象列表<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-url"><strong>url</strong></a>(self, url)</dt><dd><tt>设置完整URL<br>
+&nbsp;<br>
+解析URL并设置协议、主机、端口、路径等属性<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;url:&nbsp;完整URL或返回URL的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="Api-verify"><strong>verify</strong></a>(self, verify)</dt><dd><tt>设置SSL验证开关<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;verify:&nbsp;布尔值或返回布尔值的函数<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ApiResult">class <strong>ApiResult</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ApiResult">ApiResult</a>(resp,&nbsp;callback_result)<br>
+&nbsp;<br>
+API请求结果封装类<br>
+&nbsp;<br>
+用于封装HTTP响应和回调函数处理结果。<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;__resp:&nbsp;存储HTTP响应对象<br>
+&nbsp;&nbsp;&nbsp;&nbsp;__callback_result:&nbsp;存储回调函数处理结果<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ApiResult-__init__"><strong>__init__</strong></a>(self, resp, callback_result)</dt><dd><tt>初始化ApiResult<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resp:&nbsp;requests.Response对象或None<br>
+&nbsp;&nbsp;&nbsp;&nbsp;callback_result:&nbsp;回调函数处理结果或None</tt></dd></dl>
+
+<dl><dt><a name="ApiResult-callback_result"><strong>callback_result</strong></a>(self, callback_result)</dt><dd><tt>设置回调函数处理结果<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;callback_result:&nbsp;回调函数处理结果<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<dl><dt><a name="ApiResult-get_callback_result"><strong>get_callback_result</strong></a>(self)</dt><dd><tt>获取回调函数处理结果<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;回调函数处理结果或None</tt></dd></dl>
+
+<dl><dt><a name="ApiResult-get_resp"><strong>get_resp</strong></a>(self)</dt><dd><tt>获取HTTP响应对象<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;requests.Response对象或None</tt></dd></dl>
+
+<dl><dt><a name="ApiResult-resp"><strong>resp</strong></a>(self, resp)</dt><dd><tt>设置HTTP响应对象<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resp:&nbsp;requests.Response对象<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;支持链式调用</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Env">class <strong>Env</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Env">Env</a>(host='localhost',&nbsp;port=None,&nbsp;protocol='http')<br>
+&nbsp;<br>
+API环境配置类<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;host:&nbsp;API主机名<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port:&nbsp;API端口<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protocol:&nbsp;API协议(http/https)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Env-__init__"><strong>__init__</strong></a>(self, host='localhost', port=None, protocol='http')</dt><dd><tt>初始化环境配置<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;host:&nbsp;API主机，默认为'localhost'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port:&nbsp;API端口，默认为None<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protocol:&nbsp;API协议，默认为'http'</tt></dd></dl>
+
+<dl><dt><a name="Env-get_env"><strong>get_env</strong></a>(self)</dt><dd><tt>获取完整的环境URL<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;格式为'{protocol}://{host}:{port}'的URL字符串</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Proxy">class <strong>Proxy</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Proxy">Proxy</a>(host='localhost',&nbsp;port=None,&nbsp;protocol='http')<br>
+&nbsp;<br>
+代理服务器配置类<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;host:&nbsp;代理服务器主机名<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port:&nbsp;代理服务器端口<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protocol:&nbsp;代理协议(http/https)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Proxy-__init__"><strong>__init__</strong></a>(self, host='localhost', port=None, protocol='http')</dt><dd><tt>初始化代理配置<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;host:&nbsp;代理主机，默认为'localhost'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;port:&nbsp;代理端口，默认为None<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protocol:&nbsp;代理协议，默认为'http'</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Callable</strong> = typing.Callable</td></tr></table>
+</body></html>

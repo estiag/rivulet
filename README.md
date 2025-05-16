@@ -55,25 +55,17 @@ souhu_api = Api('https://www.sohu.com/').callback(souhu_callback)
 # 组织发送顺序
 baidu_api.then(souhu_api).send()
 ```
-
+### 请求组
+有可能一个请求依赖一个以上的前置请求的结果，这时可以使用请求组
+```python
+# 假设api_a、api_b、api_c、api_d分别是创建好的Api对象，api_b、api_c的callback函数会
+# 收到来自api_a的结果，api_d会收到来自api_b, api_c的合并结果
+api_a.then([api_b, api_c]).then(api_d).send()
+```
 ### 返回结果
 
 发送类函数(包括send / get / post / send_and_print / send_and_get_json)的返回结果是一个ApiResult对象，包含两部分，
 Response对象和Callback结果对象
 
-## Api对象介绍
-
-#### Api()
-
-Api构造函数, 生成一个Api对象
-
-| 参数       | 类型                   | 是否必须 | 说明      |
-|----------|----------------------|------|---------|
-| url      | string/function      | f    | URL     |
-| env      | Env                  | f    | Env环境对象 |
-| path     | string/function      | f    | URL的路径  |
-| port     | int/function         | f    | 端口号     |
-| host     | string/function      | f    | 主机名     |
-| protocol | string/function      | f    | 协议      |
-| method   | string/function      | f    | HTTP方法  |
-| query    | string/dict/function | f    | URL参数   |
+### API文档
+[api.api.html](api.api.html)
